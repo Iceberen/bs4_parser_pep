@@ -104,7 +104,7 @@ def pep(session):
     response = get_response(session, PEP_URL)
     if response is None:
         return
-    
+
     soup = BeautifulSoup(response.text, features='lxml')
     sections = soup.find_all(
         'table', attrs={'class': 'pep-zero-table docutils align-default'})
@@ -113,18 +113,16 @@ def pep(session):
     status_list = {}
     total_status = 0
     status_false = []
-    
+
     for section in tqdm(sections):
         tables = section.find_all(
             'tr', attrs={'class': 'row-odd'})
         for table in tables:
             status = table.find('abbr')
-            if not status:
-                continue
             preview_status = status.text[1:]
             pep_link = table.find(
                 'a', attrs={'class': 'pep reference internal'})
-            if not pep_link:
+            if not pep_link or not status:
                 continue
             ver_link = urljoin(PEP_URL, pep_link['href'])
             response = get_response(session, ver_link)
