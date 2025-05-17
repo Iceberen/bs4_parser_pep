@@ -4,17 +4,7 @@ import logging
 
 from prettytable import PrettyTable
 
-from constants import BASE_DIR, DATETIME_FORMAT
-
-
-def control_output(results, cli_args):
-    output = cli_args.output
-    if output == 'pretty':
-        pretty_output(results)
-    elif output == 'file':
-        file_output(results, cli_args)
-    else:
-        default_output(results)
+from constants import BASE_DIR, DATETIME_FORMAT, PRETTY, FILE
 
 
 def default_output(results):
@@ -44,3 +34,14 @@ def file_output(results, cli_args):
         writer.writerows(results)
 
     logging.info(f'Файл с результатами был сохранён: {file_path}')
+
+
+def control_output(results, cli_args):
+    MODE_TO_OUTPUT = {
+    PRETTY: lambda out_fun: pretty_output(results),
+    FILE: lambda out_fun: file_output(results, cli_args),
+    'default': lambda out_fun: default_output(results),
+    }
+    output_function = MODE_TO_OUTPUT.get(
+        cli_args.output, MODE_TO_OUTPUT['default'])
+    return output_function(results)

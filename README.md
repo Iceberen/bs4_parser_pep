@@ -64,3 +64,12 @@
 #### Дополнительные параметры:
 - ```-output pretty```	(Вывод в PrettyTable в консоль);
 - ```-output file```	(Вывод в файл CSV).
+
+## Технологии:
+- Python;
+- BeautifulSoup4;
+- argparse;
+- tqdm.
+
+#### Автор студен когорты 50+:
+[Васильев Вячеслав](https://github.com/Iceberen).
