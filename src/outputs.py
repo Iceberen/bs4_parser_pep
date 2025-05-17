@@ -38,9 +38,9 @@ def file_output(results, cli_args):
 
 def control_output(results, cli_args):
     MODE_TO_OUTPUT = {
-    PRETTY: lambda out_fun: pretty_output(results),
-    FILE: lambda out_fun: file_output(results, cli_args),
-    'default': lambda out_fun: default_output(results),
+        PRETTY: lambda out_fun: pretty_output(results),
+        FILE: lambda out_fun: file_output(results, cli_args),
+        'default': lambda out_fun: default_output(results),
     }
     output_function = MODE_TO_OUTPUT.get(
         cli_args.output, MODE_TO_OUTPUT['default'])

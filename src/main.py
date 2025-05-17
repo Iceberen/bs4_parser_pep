@@ -153,7 +153,7 @@ def main():
     if args.clear_cache:
         session.cache.clear()
     parser_mode = args.mode
-    
+
     try:
         results = MODE_TO_FUNCTION[parser_mode](session)
         if results is not None:
