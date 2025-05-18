@@ -6,6 +6,9 @@ PEP_URL = 'https://peps.python.org/'
 
 BASE_DIR = Path(__file__).parent
 LOG_DIR = BASE_DIR / 'logs'
+FILE_OUTPUT_DIR = 'results'
+DOWNLOAD_DIR = 'downloads'
+LOG_FILENAME = 'parser.log'
 
 LOG_FORMAT = '"%(asctime)s - [%(levelname)s] - %(message)s"'
 DT_LOG_FORMAT = '%d.%m.%Y %H:%M:%S'

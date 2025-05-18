@@ -8,7 +8,8 @@ from bs4 import BeautifulSoup
 from tqdm import tqdm
 from collections import defaultdict
 
-from constants import BASE_DIR, MAIN_DOC_URL, PEP_URL, EXPECTED_STATUS
+from constants import (BASE_DIR, MAIN_DOC_URL, PEP_URL, EXPECTED_STATUS,
+                       DOWNLOAD_DIR)
 from configs import configure_argument_parser, configure_logging
 from outputs import control_output
 from utils import get_response, find_tag, generate_soup
@@ -68,6 +69,7 @@ def latest_versions(session):
 
 
 def download(session):
+    
     downloads_url = urljoin(MAIN_DOC_URL, 'download.html')
     soup = generate_soup(session, downloads_url)
     main_tag = find_tag(soup, 'div', attrs={'role': 'main'})
@@ -76,9 +78,8 @@ def download(session):
                           attrs={'href': re.compile(r'.+pdf-a4\.zip$')})
     pdf_a4_link = pdf_a4_tag['href']
     archive_url = urljoin(downloads_url, pdf_a4_link)
-
     filename = archive_url.split('/')[-1]
-    downloads_dir = BASE_DIR / 'downloads'
+    downloads_dir = BASE_DIR / DOWNLOAD_DIR
     downloads_dir.mkdir(exist_ok=True)
     archive_path = downloads_dir / filename
     response = session.get(archive_url)
@@ -160,19 +161,19 @@ def main():
             control_output(results, args)
     except ValueError as e:
         logging.error(f'Произошла ошибка: {e}.')
-        raise ValueError('Ошибка при обработке входных данных.')
+        return
     except RequestException as e:
         logging.error(f'Произошла ошибка: {e}.')
-        raise RequestException('Ошибка при загрузке страницы.')
+        return
     except ParserFindTagException as e:
         logging.error(f'Произошла ошибка: {e}.')
-        raise RequestException('Ошибка при поиске тегов.')
+        return
     except IOError as e:
         logging.error(f'Произошла ошибка: {e}.')
-        raise IOError('Ошибка при работе с файлом.')
+        return
     except Exception as e:
         logging.error(f'Произошла ошибка: {e}.')
-        raise Exception('Неизвестная ошибка')
+        return
 
     logging.info('Парсер завершил работу.')
 
