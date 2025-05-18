@@ -69,7 +69,6 @@ def latest_versions(session):
 
 
 def download(session):
-    
     downloads_url = urljoin(MAIN_DOC_URL, 'download.html')
     soup = generate_soup(session, downloads_url)
     main_tag = find_tag(soup, 'div', attrs={'role': 'main'})
