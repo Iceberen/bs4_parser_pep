@@ -158,18 +158,6 @@ def main():
         results = MODE_TO_FUNCTION[parser_mode](session)
         if results is not None:
             control_output(results, args)
-    except ValueError as e:
-        logging.error(f'Произошла ошибка: {e}.')
-        return
-    except RequestException as e:
-        logging.error(f'Произошла ошибка: {e}.')
-        return
-    except ParserFindTagException as e:
-        logging.error(f'Произошла ошибка: {e}.')
-        return
-    except IOError as e:
-        logging.error(f'Произошла ошибка: {e}.')
-        return
     except Exception as e:
         logging.error(f'Произошла ошибка: {e}.')
         return
